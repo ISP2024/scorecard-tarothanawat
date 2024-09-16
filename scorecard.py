@@ -17,13 +17,16 @@ Observe how the type hint helps it perform static checking.
    Include the type of keys and values.
 
 """
+from abc import ABC
+from typing import Iterator
 
 
-class Scorecard:
+class Scorecard(Iterator[float], ABC):
     """Accumulate scores and compute their average."""
 
-    def __init__(self):
+    def __init__(self, name):
         """Iniiialize a new Scorecard."""
+        self.name = name
         self.scores: list[float] = []
 
     def add_score(self, score: float):
@@ -57,13 +60,13 @@ def ordinal(num) -> str:
 
 if __name__ == "__main__":
     # Interactively add scores and print some statistics.
-    scorecard = Scorecard()
+    scorecard = Scorecard("Score")
 
     print("Input 3 scores.")
     for count in range(1, 4):
         score = float(input(f"input {ordinal(count)} score: "))
         scorecard.add_score(score)
 
-    print("The average is " + str(scorecard.average()))
+    print(f"The average is {scorecard.average()} ")
 
     print_scores(scorecard.scores)
